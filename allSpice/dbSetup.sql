@@ -21,7 +21,7 @@ CREATE TABLE
         category VARCHAR(255) NOT NULL,
         archived TINYINT DEFAULT 0,
         creatorId VARCHAR(255) NOT NULL,
-        Foreign Key (creatorId) REFERENCES accounts(id)
+        FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE 
     ) default charset utf8 COMMENT '';
 
 CREATE TABLE
@@ -32,7 +32,7 @@ CREATE TABLE
         name VARCHAR(255) NOT NULL,
         quantity VARCHAR(255) NOT NULL,
         recipeId INT NOT NULL,
-        Foreign Key (recipeId) REFERENCES recipes(id)
+        Foreign Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE 
     ) default charset utf8 COMMENT '';
 
 CREATE TABLE
@@ -42,8 +42,8 @@ CREATE TABLE
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
         accountId VARCHAR(255) NOT NULL,
         recipeId INT NOT NULL,
-        Foreign Key (accountId) REFERENCES accounts(id),
-        Foreign Key (recipeId) REFERENCES recipes(id)
+        Foreign Key (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
+        Foreign Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE 
     ) default charset utf8 COMMENT '';
 
     -- drop Table accounts;

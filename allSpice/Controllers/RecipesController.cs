@@ -19,8 +19,8 @@ public class RecipesController : ControllerBase
   public ActionResult<List<Recipe>> GetAllRecipes()
   {
     try
-    { List<Recipe> recipe = _rs.GetAllRecipes();
-      return Ok(recipe);
+    { List<Recipe> recipes = _rs.GetAllRecipes();
+      return Ok(recipes);
     }
     catch (Exception e)
     {
@@ -28,10 +28,10 @@ public class RecipesController : ControllerBase
     }
   }
   [HttpGet("{recipeId}")]
-  public ActionResult<List<Recipe>> GetRecipeById(int id)
+  public ActionResult<Recipe> GetRecipeById(int recipeId)
   {
     try
-    { Recipe recipe = _rs.GetRecipeById(id);
+    { Recipe recipe = _rs.GetRecipeById(recipeId);
       return Ok(recipe);
     }
     catch (Exception e)
@@ -50,6 +50,7 @@ public class RecipesController : ControllerBase
       Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
       newRecipe.CreatorId = userInfo.Id;
       Recipe createdRecipe = _rs.CreateRecipe(newRecipe);
+      createdRecipe.Creator = userInfo;
       return Ok(createdRecipe);
     }
     catch (Exception e)
@@ -60,13 +61,13 @@ public class RecipesController : ControllerBase
 
    [HttpDelete("{recipeId}")]
     [Authorize]
-    public async Task<ActionResult<string>> ArchiveRecipe(int recipeId)
+    public async Task<ActionResult<string>> DeleteRecipe(int recipeId)
     {
         try
         {
             Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
-            _rs.ArchiveRecipe(recipeId, userInfo.Id);
-            return Ok("Recipe successfully archived");
+            _rs.DeleteRecipe(recipeId, userInfo.Id);
+            return Ok("Recipe successfully Deleted");
         }
         catch (Exception e)
         {
@@ -81,6 +82,7 @@ public class RecipesController : ControllerBase
         {
             Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
           Recipe recipe =  _rs.UpdateRecipe(recipeData, userInfo.Id);
+          // recipe.Creator = userInfo;
             return Ok(recipe);
         }
         catch (Exception e)
@@ -88,6 +90,11 @@ public class RecipesController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+  
 
+    
+    
+
+   
 }
 

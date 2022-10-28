@@ -36,7 +36,7 @@ public class RecipesRepository : BaseRepository
   internal Recipe GetRecipeById(int recipeId)
   {
     string sql = @"SELECT rec.*,
-    COUNT(favs.id) AS FavoriteCount
+    COUNT(favs.id) AS FavoriteCount,
     a.*
     FROM recipes rec
     JOIN accounts a ON a.id = rec.creatorId
@@ -50,11 +50,9 @@ public class RecipesRepository : BaseRepository
         }, new { recipeId }).FirstOrDefault();
   }
 
-  internal void ArchiveRecipe(Recipe recipe)
+  internal void DeleteRecipe(Recipe recipe)
   {
-      string sql = @"UPDATE recipes
-      SET
-      archived = 1
+      string sql = @"DELETE FROM recipes
       WHERE id = @Id
       ;";
         var rowsAffected = _db.Execute(sql, recipe);
@@ -70,8 +68,8 @@ public class RecipesRepository : BaseRepository
                 title = @title,
                 img = @img,
                 instructions = @instructions,
-                category = @category,
-            WHERE id = @id";
+                category = @category
+            WHERE id = @Id;";
             int recipeRow = _db.Execute(sql, recipe);
             if (recipeRow == 0)
             {

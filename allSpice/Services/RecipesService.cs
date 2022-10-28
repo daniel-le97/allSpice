@@ -30,19 +30,15 @@ public class RecipesService{
     return recipe;
   }
 
-  internal void ArchiveRecipe(int recipeId, string accountId)
+  internal void DeleteRecipe(int recipeId, string accountId)
   {
    Recipe recipe = GetRecipeById(recipeId);
-   if (recipe.Archived)
-   {
-    throw new Exception("recipe is already archived");
-   }
    if (recipe.CreatorId != accountId)
    {
     throw new Exception("not your Recipe to archive");
    }
-   recipe.Archived = true;
-   _recipeRepo.ArchiveRecipe(recipe);
+   
+   _recipeRepo.DeleteRecipe(recipe);
   }
 
   internal Recipe UpdateRecipe(Recipe recipeData, string accountId)
