@@ -4,11 +4,13 @@ namespace allSpice.Services;
 public class RecipesService{
   private readonly RecipesRepository _recipeRepo;
   private readonly FavoritesRepository _favoritesRepo;
+  private readonly IngredientsRepository _ingredientsRepo;
 
-  public RecipesService(RecipesRepository recipeRepo, FavoritesRepository favoritesRepo)
+  public RecipesService(RecipesRepository recipeRepo, FavoritesRepository favoritesRepo, IngredientsRepository ingredientsRepo)
   {
     _recipeRepo = recipeRepo;
     _favoritesRepo = favoritesRepo;
+    _ingredientsRepo = ingredientsRepo;
   }
 
   internal Recipe CreateRecipe(Recipe newRecipe){
@@ -27,6 +29,10 @@ public class RecipesService{
     {
       throw new Exception("recipe does not exist");
     }
+    if (recipe.Id == 0)
+    {
+      throw new Exception("bad id");
+    }
     return recipe;
   }
 
@@ -41,13 +47,19 @@ public class RecipesService{
    _recipeRepo.DeleteRecipe(recipe);
   }
 
-  internal Recipe UpdateRecipe(Recipe recipeData, string accountId)
+  internal List<Ingredient> GetIngredientsByRecipeId(int recipeId)
   {
-    if (recipeData.CreatorId != accountId)
+    return _ingredientsRepo.GetIngredientsByRecipeId(recipeId);
+  }
+
+  internal Recipe UpdateRecipe(Recipe recipeData, string accountId, int recipeId)
+  {
+   
+    Recipe original = GetRecipeById(recipeId);
+    if (original.CreatorId != accountId)
     {
       throw new Exception("not your recipe to Update");
     }
-    Recipe original = GetRecipeById(recipeData.Id);
    original.Title = recipeData.Title?? original.Title;
    original.Img = recipeData.Img?? original.Img;
    original.Category = recipeData.Category?? original.Category;

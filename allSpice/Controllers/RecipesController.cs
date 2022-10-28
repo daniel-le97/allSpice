@@ -39,6 +39,18 @@ public class RecipesController : ControllerBase
       return BadRequest(e.Message);
     }
   }
+  [HttpGet("{recipeId}/ingredients")]
+  public ActionResult<List<Ingredient>> GetIngredientsByRecipeId(int recipeId)
+  {
+    try
+    { List<Ingredient> ingredients = _rs.GetIngredientsByRecipeId(recipeId);
+      return Ok(ingredients);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
 
 
   [HttpPost]
@@ -81,7 +93,7 @@ public class RecipesController : ControllerBase
         try
         {
             Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
-          Recipe recipe =  _rs.UpdateRecipe(recipeData, userInfo.Id);
+          Recipe recipe =  _rs.UpdateRecipe(recipeData, userInfo.Id, recipeId);
           // recipe.Creator = userInfo;
             return Ok(recipe);
         }

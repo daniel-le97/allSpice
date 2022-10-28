@@ -47,13 +47,14 @@ public class RecipesRepository : BaseRepository
         {
             recipe.Creator = profile;
             return recipe;
-        }, new { recipeId }).FirstOrDefault();
+        }, new { recipeId }).First();
   }
 
   internal void DeleteRecipe(Recipe recipe)
   {
       string sql = @"DELETE FROM recipes
       WHERE id = @Id
+      LIMIT 1
       ;";
         var rowsAffected = _db.Execute(sql, recipe);
         if (rowsAffected == 0)

@@ -26,18 +26,38 @@ public class FavoritesController : ControllerBase
     }
   }
 
-
-  [HttpPost]
-  public ActionResult<List<string>> Create([FromBody] string value)
-  {
-    try
+ [HttpPost]
+  public async Task<ActionResult<Favorite>> CreateFavorite([FromBody] Favorite favoriteData)
     {
-      return Ok(value);
+    try
+     {
+      Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
+      favoriteData.AccountId = userInfo.Id;
+      Favorite favorite = _fs.CreateFavorite(favoriteData);
+      // ingredient.CreatorId = userInfo.Id;
+      favorite.Creator = userInfo;
+      return Ok(favorite);
     }
     catch (Exception e)
     {
       return BadRequest(e.Message);
     }
   }
+
+    [HttpDelete("{favoriteId}")]
+    [Authorize]
+    public async Task<ActionResult<string>> DeleteFavorite(int favoriteId)
+    {
+        try
+        {
+            Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
+            _fs.DeleteFavorite(favoriteId, userInfo.Id);
+            return Ok("favorite successfully Deleted");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 
 }

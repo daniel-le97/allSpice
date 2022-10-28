@@ -32,12 +32,14 @@ CREATE TABLE
         name VARCHAR(255) NOT NULL,
         quantity VARCHAR(255) NOT NULL,
         recipeId INT NOT NULL,
+        creatorId VARCHAR(255) NOT NULL,
+        FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
         Foreign Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE 
     ) default charset utf8 COMMENT '';
 
 CREATE TABLE
     IF NOT EXISTS favorites(
-        id VARCHAR(255) NOT NULL PRIMARY KEY,
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
         accountId VARCHAR(255) NOT NULL,
@@ -46,7 +48,7 @@ CREATE TABLE
         Foreign Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE 
     ) default charset utf8 COMMENT '';
 
-    -- drop Table accounts;
-    -- drop Table recipes;
-    -- drop Table ingredients;
-    -- drop Table favorites;
+    drop Table accounts;
+    drop Table recipes;
+    drop Table ingredients;
+    drop Table favorites;

@@ -7,4 +7,14 @@ public class FavoritesService{
   {
     _favoritesRepo = favoritesRepo;
   }
+
+  internal Favorite CreateFavorite(Favorite favoriteData)
+  {
+    return _favoritesRepo.CreateFavorite(favoriteData);
+  }
+
+  internal void DeleteFavorite(int favoriteId, string accountId)
+  {
+    throw new NotImplementedException();
+  }
 }
