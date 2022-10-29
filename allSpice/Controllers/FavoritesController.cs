@@ -34,7 +34,6 @@ public class FavoritesController : ControllerBase
       Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
       favoriteData.AccountId = userInfo.Id;
       Favorite favorite = _fs.CreateFavorite(favoriteData);
-      // ingredient.CreatorId = userInfo.Id;
       favorite.Creator = userInfo;
       return Ok(favorite);
     }
@@ -59,5 +58,18 @@ public class FavoritesController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
+       [HttpGet("{favoriteId}")]
+  public ActionResult<Ingredient> GetFavoriteById(int favoriteId)
+  {
+    try
+    { Favorite favorite = _fs.GetFavoriteById(favoriteId);
+      return Ok(favorite);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
 
 }

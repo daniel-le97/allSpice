@@ -43,7 +43,7 @@ public class IngredientsRepository : BaseRepository
         var rowsAffected = _db.Execute(sql, ingredient);
         if (rowsAffected == 0)
         {
-            throw new Exception("Unable to update recipe");
+            throw new Exception("Unable to Delete Ingredient");
         }
   }
 
