@@ -6,8 +6,7 @@ public class RecipesRepository : BaseRepository
 
   internal Recipe CreateRecipe(Recipe newRecipe)
   {
-       string sql = @"
-      INSERT INTO recipes(title, img, instructions, category, creatorId)
+       string sql = @"INSERT INTO recipes(title, img, instructions, category, creatorId)
       VALUES(@Title, @Img, @Instructions, @Category, @CreatorId);
       SELECT LAST_INSERT_ID()
       ;";
@@ -20,10 +19,12 @@ public class RecipesRepository : BaseRepository
   {
     string sql = @"SELECT rec.*,
     COUNT(favs.id) AS FavoriteCount,
+    COUNT(ing.id) AS IngredientCount,
     a.*
     FROM recipes rec
     JOIN accounts a on a.id = rec.creatorId
     LEFT JOIN favorites favs on favs.recipeId = rec.id
+    LEFT JOIN ingredients ing on ing.recipeId = rec.id
     GROUP BY rec.id
    ;";
      return _db.Query<Recipe, Profile, Recipe>(sql ,(recipe, profile) =>

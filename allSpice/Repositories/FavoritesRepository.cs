@@ -8,8 +8,7 @@ public class FavoritesRepository : BaseRepository
 
   internal Favorite CreateFavorite(Favorite favoriteData)
   {
-    string sql = @"
-      INSERT INTO favorites(recipeId, accountId)
+    string sql = @"INSERT INTO favorites(recipeId, accountId)
       VALUES(@RecipeId, @AccountId);
       SELECT LAST_INSERT_ID()
       ;";
@@ -31,7 +30,7 @@ public class FavoritesRepository : BaseRepository
      string sql = @"SELECT * FROM favorites
         WHERE recipeId = @recipeId AND accountId = @accountId
         ;";
-      Favorite favorites = _db.Query<Favorite>(sql, new {favoriteData}).First();
+      Favorite favorites = _db.Query<Favorite>(sql, favoriteData).FirstOrDefault();
           return favorites;
   }
 

@@ -2,14 +2,21 @@ namespace allSpice.Services;
 
 public class IngredientsService{
 private readonly IngredientsRepository _ingredientsRepo;
+private readonly RecipesRepository _recipeRepo;
 
-  public IngredientsService(IngredientsRepository ingredientsRepo)
+  public IngredientsService(IngredientsRepository ingredientsRepo, RecipesRepository recipeRepo)
   {
     _ingredientsRepo = ingredientsRepo;
+    _recipeRepo = recipeRepo;
   }
 
   internal Ingredient CreateIngredient(Ingredient ingredientData)
-  {
+  { 
+    Recipe recipe = _recipeRepo.GetRecipeById(ingredientData.RecipeId);
+    if (ingredientData.CreatorId != recipe.CreatorId)
+    {
+      throw new Exception("this isn't your recipe too add ingredients too");
+    }
     return _ingredientsRepo.CreateIngredient(ingredientData);
   }
 

@@ -1,44 +1,61 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img
-        src="https://bcw.blob.core.windows.net/public/img/8600856373152463"
-        alt="CodeWorks Logo"
-        class="rounded-circle"
-      >
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <Banner />
+    </div>
+    <div class="row mt-4">
+      <div class="col-3" v-for="recipe in recipes" :key="recipe.id">
+        <RecipeCard
+          :recipe="recipe"
+          class="m-3"
+          @click="getIngredients(recipe.id)"
+        />
+      </div>
     </div>
   </div>
+  <button class="rounded-circle position-absolute buttonFix">add</button>
 </template>
 
 <script>
+import { computed } from '@vue/reactivity';
+import { onMounted } from 'vue';
+import { AppState } from '../AppState.js';
+import Banner from '../components/Banner.vue';
+import RecipeCard from '../components/RecipesFolder/RecipeCard.vue';
+import { recipeService } from '../services/RecipesService.js';
+import { ingredientsService } from '../services/IngredientsService.js';
+import Pop from '../utils/Pop.js';
+
 export default {
-  setup() {
-    return {}
-  }
-}
+    setup() {
+      async function getRecipes(){
+        try {
+            await recipeService.getRecipes()
+          } catch (error) {
+            Pop.error(error)
+          }
+      }
+      onMounted(() =>{
+        getRecipes()
+      })
+        return {
+          recipes: computed(() => AppState.recipes),
+          async getIngredients(recipeId){
+              try {
+             await ingredientsService.getIngredients(recipeId)
+              } catch (error) {
+                 Pop.error(error)
+              }
+          }
+        };
+    },
+    components: { Banner, RecipeCard }
+};
 </script>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-
-  .home-card {
-    width: 50vw;
-
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
+.buttonFix {
+  position: fixed;
+  bottom: -50px;
 }
 </style>
