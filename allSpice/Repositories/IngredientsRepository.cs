@@ -20,17 +20,10 @@ public class IngredientsRepository : BaseRepository
 
   internal Ingredient GetIngredientsById(int ingredientId)
   {
-        string sql = @"SELECT ing.*,
-        a.*
-        FROM ingredients ing
-        JOIN accounts a ON a.id = ing.creatorId
-        WHERE ing.id = @ingredientId
+        string sql = @"SELECT * FROM ingredients
+        WHERE id = @ingredientId
         ;";
-          return _db.Query<Ingredient, Profile, Ingredient>(sql, (ingredient, profile) =>
-        {
-            ingredient.Creator = profile;
-            return ingredient;
-        }, new { ingredientId }).First();
+          return _db.Query<Ingredient>(sql, new { ingredientId }).First();
     
   }
 
@@ -50,16 +43,9 @@ public class IngredientsRepository : BaseRepository
   internal List<Ingredient> GetIngredientsByRecipeId(int recipeId)
   {
 
-            string sql = @"SELECT ing.*,
-        a.*
-        FROM ingredients ing
-        JOIN accounts a ON a.id = ing.creatorId
-        WHERE ing.recipeId = @recipeId
+            string sql = @"SELECT * FROM ingredients
+        WHERE recipeId = @recipeId
         ;";
-        return _db.Query<Ingredient, Profile, Ingredient>(sql, (ingredient, profile) =>
-        {
-            ingredient.Creator = profile;
-            return ingredient;
-        }, new { recipeId }).ToList();
+        return _db.Query<Ingredient>(sql, new { recipeId }).ToList();
   }
 }

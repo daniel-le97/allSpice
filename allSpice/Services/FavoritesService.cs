@@ -9,7 +9,12 @@ public class FavoritesService{
   }
 
   internal Favorite CreateFavorite(Favorite favoriteData)
-  {
+  { 
+    // Favorite favorite = _favoritesRepo.GetFavoriteByAccountAndRecipe(favoriteData);
+    // if (favorite != null)
+    // {
+    //   throw new Exception("already favorited this recipe");
+    // }
     return _favoritesRepo.CreateFavorite(favoriteData);
   }
 

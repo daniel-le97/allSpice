@@ -1,6 +1,6 @@
 namespace allSpice.Models;
 
-public class Ingredient : ICreated,IRepoItem<int>
+public class Ingredient : IRepoItem<int>
 {
   public int Id { get; set; }
   public int RecipeId { get; set; }
@@ -9,5 +9,5 @@ public class Ingredient : ICreated,IRepoItem<int>
   public string Name { get; set; }
   public string Quantity { get; set; }
   public string CreatorId { get; set; }
-  public Profile Creator { get; set; }
+ 
 }

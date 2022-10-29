@@ -34,7 +34,6 @@ public class IngredientsController : ControllerBase
       ingredientData.CreatorId = userInfo.Id;
       Ingredient ingredient = _is.CreateIngredient(ingredientData);
       // ingredient.CreatorId = userInfo.Id;
-      ingredient.Creator = userInfo;
       return Ok(ingredient);
     }
     catch (Exception e)

@@ -36,6 +36,6 @@
     "editor.codeActionsOnSave": {
       "source.fixAll": true
     },
-    "cSpell.words": ["favoritet", "favs"]
+    "cSpell.words": ["favorited", "favoritet", "favs"]
   }
 }

@@ -26,6 +26,15 @@ public class FavoritesRepository : BaseRepository
           return _db.Query<Favorite>(sql,new { favoriteId }).First();
   }
 
+  internal Favorite GetFavoriteByAccountAndRecipe(Favorite favoriteData){
+
+     string sql = @"SELECT * FROM favorites
+        WHERE recipeId = @recipeId AND accountId = @accountId
+        ;";
+      Favorite favorites = _db.Query<Favorite>(sql, new {favoriteData}).First();
+          return favorites;
+  }
+
   internal void DeleteFavorite(Favorite favorite)
   {
      string sql = @"DELETE FROM favorites
@@ -46,6 +55,7 @@ public class FavoritesRepository : BaseRepository
        rec.*,
        COUNT(fav.id) AS FavoriteCount,
        fav.id AS FavoriteId,
+       rec.id AS recipeId,
        a.*
        FROM favorites fav
        JOIN recipes rec ON rec.id = fav.recipeId

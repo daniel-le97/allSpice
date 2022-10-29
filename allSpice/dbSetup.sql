@@ -52,3 +52,22 @@ CREATE TABLE
     drop Table recipes;
     drop Table ingredients;
     drop Table favorites;
+
+--     SELECT
+--     rec.*,
+--     COUNT(fav.id) AS FavoriteCount,
+--     fav.id AS FavoriteId,
+--     a.*
+-- FROM favorites fav
+--     JOIN recipes rec ON rec.id = fav.recipeId
+--     JOIN accounts a ON a.id = rec.creatorId
+-- WHERE
+--     fav.accountId = @accountId
+-- GROUP BY fav.id;
+
+
+SELECT *
+FROM favorites
+WHERE
+    recipeId = @recipeId
+    AND accountId = @accountId;
