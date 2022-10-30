@@ -34,7 +34,7 @@ CREATE TABLE
         recipeId INT NOT NULL,
         creatorId VARCHAR(255) NOT NULL,
         FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
-        Foreign Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE 
+        FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE 
     ) default charset utf8 COMMENT '';
 
 CREATE TABLE
@@ -44,8 +44,8 @@ CREATE TABLE
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
         accountId VARCHAR(255) NOT NULL,
         recipeId INT NOT NULL,
-        Foreign Key (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
-        Foreign Key (recipeId) REFERENCES recipes(id) ON DELETE CASCADE 
+        FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
+        FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE 
     ) default charset utf8 COMMENT '';
 
     drop Table accounts;

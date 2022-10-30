@@ -52,7 +52,6 @@ public class FavoritesRepository : BaseRepository
   {
      string sql = @"DELETE FROM favorites
       WHERE id = @Id
-      LIMIT 1
       ;";
         var rowsAffected = _db.Execute(sql, favorite);
         if (rowsAffected == 0)
@@ -78,7 +77,7 @@ public class FavoritesRepository : BaseRepository
         {
             recipe.Creator = profile;
             recipe.AccountId = profile.Id;
-            recipe.isFavorited = true;
+            recipe.favorited = true;
             return recipe;
         }, new { accountId }).ToList();
   }

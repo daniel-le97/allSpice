@@ -1,5 +1,5 @@
 <template>
-  <div class="card text-bg-dark" >
+  <div class="card text-bg-dark">
     <img :src="recipe.img" class="card-img img-fluid imgSize" alt="..." />
     <div class="card-img-overlay p-1 px-2">
       <div class="d-flex justify-content-end">
@@ -10,7 +10,11 @@
         ></i>
         <i class="mdi mdi-heart" @click="favoriteRecipe" v-else></i>
       </div>
-      <div @click="makeActive(recipe)" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <div
+        @click="makeActive(recipe)"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
         <h5 class="card-title">{{ recipe.title }}</h5>
         <p class="card-text">{{ recipe.instructions }}</p>
         <p class="card-text">
@@ -37,7 +41,9 @@ export default {
   },
   setup(props) {
     return {
-      favorited: computed(() => props.recipe.favorited),
+      favorited: computed(() =>
+        AppState.favorites.find((f) => f.id == props.recipe.id)
+      ),
       makeActive(recipeData) {
         if (AppState.activeRecipe != recipeData) {
           AppState.activeRecipe = recipeData;
@@ -46,13 +52,15 @@ export default {
       },
       async favoriteRecipe() {
         try {
-          await recipeService.favoriteRecipe(props.recipe.id);
+          props.favorited = true;
+          await recipeService.favoriteRecipe(props.recipe);
         } catch (error) {
           Pop.error(error);
         }
       },
       async deleteFavorite() {
         try {
+          props.favorited = false;
           await recipeService.deleteFavorite(props.recipe.id);
         } catch (error) {
           Pop.error(error);
