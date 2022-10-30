@@ -13,7 +13,7 @@ public class FavoritesService{
     Favorite favorite = _favoritesRepo.GetFavoriteByAccountAndRecipe(favoriteData);
     if (favorite != null)
     {
-      throw new Exception("already favorited this recipe");
+      throw new Exception("already favorited");
     }
     return _favoritesRepo.CreateFavorite(favoriteData);
   }

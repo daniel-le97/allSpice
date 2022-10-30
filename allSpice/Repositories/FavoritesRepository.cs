@@ -17,6 +17,20 @@ public class FavoritesRepository : BaseRepository
         return favoriteData;
   }
 
+  internal Favorite DeleteFavoriteBefore(Favorite favorite)
+  {
+    string sql = @"DELETE FROM favorites
+      WHERE id = @Id
+      LIMIT 1
+      ;";
+        var rowsAffected = _db.Execute(sql, favorite);
+        if (rowsAffected == 0)
+        {
+            throw new Exception("Unable to Delete Favorite");
+        }
+        return favorite;
+  }
+
   internal Favorite GetFavoriteById(int favoriteId)
   {
        string sql = @"SELECT * FROM favorites
@@ -49,9 +63,7 @@ public class FavoritesRepository : BaseRepository
 
   internal List<FavRecipe> GetFavoritesByAccountId(string accountId)
   {
-      string sql = @"
-       SELECT
-       rec.*,
+      string sql = @"SELECT rec.*,
        COUNT(fav.id) AS FavoriteCount,
        fav.id AS FavoriteId,
        rec.id AS recipeId,
@@ -66,6 +78,7 @@ public class FavoritesRepository : BaseRepository
         {
             recipe.Creator = profile;
             recipe.AccountId = profile.Id;
+            recipe.isFavorited = true;
             return recipe;
         }, new { accountId }).ToList();
   }

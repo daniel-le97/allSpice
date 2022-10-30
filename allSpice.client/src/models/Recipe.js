@@ -1,3 +1,4 @@
+import { AppState } from "../AppState.js";
 import { Account } from "./Account.js";
 
 export class Recipe {
@@ -13,5 +14,14 @@ export class Recipe {
     this.category = data.category;
     this.favoriteCount = data.favoriteCount;
     this.archived = data.archived;
+    this.favorited = getFavorite(data.id);
   }
+}
+
+function getFavorite(id) {
+  let fav = AppState.favorites.find((f) => f.id == id);
+  if (fav) {
+    return true;
+  }
+  return false;
 }

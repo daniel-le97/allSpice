@@ -4,11 +4,13 @@ public class AccountService
 {
   private readonly AccountsRepository _repo;
   private readonly FavoritesRepository _favRepo;
+  private readonly RecipesRepository _recRepo;
 
-  public AccountService(AccountsRepository repo, FavoritesRepository favRepo)
+  public AccountService(AccountsRepository repo, FavoritesRepository favRepo, RecipesRepository recRepo)
   {
     _repo = repo;
     _favRepo = favRepo;
+    _recRepo = recRepo;
   }
 
   internal Account GetProfileByEmail(string email)
@@ -37,5 +39,15 @@ public class AccountService
   internal List<FavRecipe> GetFavoritesByAccountId(Account userInfo)
   {
     return _favRepo.GetFavoritesByAccountId(userInfo.Id);
+  }
+
+  internal List<Recipe> GetRecipesByAccountId(Account userInfo)
+  {
+    List<Recipe> recipes = _recRepo.GetRecipesByAccountId(userInfo.Id);
+    // foreach (var recipe in recipes)
+    // {
+    //   recipe.Creator = userInfo;
+    // }
+    return  recipes;
   }
 }

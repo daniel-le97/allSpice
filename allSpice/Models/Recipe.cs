@@ -14,4 +14,5 @@ public class Recipe : ICreated, IRepoItem<int>
   public string Category { get; set; }
   public  int FavoriteCount {get; set;}
   public int IngredientCount{get; set;}
+  public bool favorited {get; set;}
 }

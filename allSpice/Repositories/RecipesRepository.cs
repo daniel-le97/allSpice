@@ -51,6 +51,26 @@ public class RecipesRepository : BaseRepository
         }, new { recipeId }).First();
   }
 
+  internal List<Recipe> GetRecipesByAccountId(string id)
+  {
+   string sql = @"SELECT rec.*,
+    COUNT(favs.id) AS FavoriteCount,
+    COUNT(ing.id) AS IngredientCount,
+    a.*
+    FROM recipes rec
+    JOIN accounts a ON a.id = rec.creatorId
+    LEFT JOIN favorites favs on favs.recipeId = rec.id
+    LEFT JOIN ingredients ing on ing.recipeId = rec.id
+    WHERE rec.creatorId = @id
+    GROUP BY rec.id
+   ;";
+      return _db.Query<Recipe, Profile, Recipe>(sql ,(recipe, profile) =>
+        {
+            recipe.Creator = profile;
+            return recipe;
+        }, new {id}).ToList();
+  }
+
   internal void DeleteRecipe(Recipe recipe)
   {
       string sql = @"DELETE FROM recipes
