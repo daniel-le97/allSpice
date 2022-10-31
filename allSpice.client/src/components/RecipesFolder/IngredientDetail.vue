@@ -1,6 +1,8 @@
 <template>
-  <div>{{ ingredient.name }}</div>
-  <div>{{ ingredient.quantity }}</div>
+  <div class="d-flex gap-2">
+    <div>{{ ingredient.quantity }}</div>
+    <div class="fw-bold">{{ ingredient.name }}</div>
+  </div>
 </template>
 
 <script>

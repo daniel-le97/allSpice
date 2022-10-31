@@ -9,6 +9,11 @@
         />
       </div>
       <div class="col-6" v-show="ingredients">
+        <div>
+          <span class="fs-4">
+            Ingredients
+          </span>
+        </div>
         <IngredientDetail
           v-for="i in ingredients"
           :key="i.id"

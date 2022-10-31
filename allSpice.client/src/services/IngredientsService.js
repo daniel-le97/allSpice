@@ -7,7 +7,14 @@ class IngredientsService {
     const res = await api.get(`/api/recipes/${recipeId}/ingredients`);
     // console.log(res.data);
     AppState.activeRecipeIngredients = res.data.map((i) => new Ingredient(i));
-    // console.log(AppState.activeRecipeIngredients);
+    console.log(AppState.activeRecipeIngredients);
+  }
+  async createIngredient(ingredientData) {
+    const res = await api.post("/api/ingredients", ingredientData);
+    AppState.activeRecipeIngredients = [
+      ...AppState.activeRecipeIngredients,
+      new Ingredient(res.data),
+    ];
   }
 }
 export const ingredientsService = new IngredientsService();

@@ -29,5 +29,11 @@ class RecipeService {
     );
     AppState.favorites.splice(favIndex, 1);
   }
+  async createRecipe(recipeData) {
+    const res = await api.post("/api/recipes", recipeData);
+    AppState.activeRecipe = new Recipe(res.data);
+    AppState.modalForm = 1
+    AppState.recipes = [AppState.activeRecipe, ...AppState.recipes];
+  }
 }
 export const recipeService = new RecipeService();

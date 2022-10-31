@@ -18,25 +18,20 @@
           ></button>
         </div>
         <div class="modal-body">
-          <RecipeInput/>
+          <RecipeInput v-if="modalForm == 0" />
+          <IngredientInput v-if="modalForm == 1"/>
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">edit</button>
-        </div>
+       
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from "@vue/reactivity";
 import { ref } from "vue";
+import { AppState } from "../../AppState.js";
+import IngredientInput from "./IngredientInput.vue";
 import RecipeInput from "./RecipeInput.vue";
 
 export default {
@@ -44,8 +39,10 @@ export default {
     const editable = ref({});
     return {
       editable,
+      modalForm: computed(() => AppState.modalForm),
     };
   },
+  components: { RecipeInput, IngredientInput },
 };
 </script>
 

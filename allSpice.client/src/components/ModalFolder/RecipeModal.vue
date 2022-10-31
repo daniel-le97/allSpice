@@ -23,6 +23,15 @@
         <div class="modal-footer">
           <button
             type="button"
+            class="btn btn-primary"
+            @click="getIngredientForm"
+            data-bs-toggle="modal"
+            data-bs-target="#createRecipeModal"
+          >
+          Ingredients +/-
+          </button>
+          <button
+            type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
           >
@@ -44,6 +53,12 @@ export default {
   setup() {
     return {
       recipe: computed(() => AppState.activeRecipe),
+      owner: computed(
+        () => AppState.activeRecipe?.creatorId == AppState.account.id
+      ),
+      getIngredientForm(){
+        AppState.modalForm = 1
+      }
       // ingredients: computed(() => AppState.activeRecipeIngredients)
     };
   },
