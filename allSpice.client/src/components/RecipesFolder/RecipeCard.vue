@@ -2,13 +2,13 @@
   <div class="card text-bg-dark">
     <img :src="recipe.img" class="card-img img-fluid imgSize" alt="..." />
     <div class="card-img-overlay p-1 px-2">
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-between">
         <i
           class="mdi mdi-heart text-danger"
           @click="deleteFavorite()"
           v-if="favorited"
         ></i>
-        <i class="mdi mdi-heart" @click="favoriteRecipe" v-else></i>
+        <i class="mdi mdi-heart" @click="favoriteRecipe()" v-else></i>
       </div>
       <div
         @click="makeActive(recipe)"
@@ -23,9 +23,6 @@
       </div>
     </div>
   </div>
-  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button> -->
 </template>
 
 <script>
@@ -34,7 +31,6 @@ import { AppState } from "../../AppState.js";
 import { Recipe } from "../../models/Recipe.js";
 import { recipeService } from "../../services/RecipesService.js";
 import Pop from "../../utils/Pop.js";
-
 export default {
   props: {
     recipe: { type: Recipe, required: true },
@@ -52,7 +48,7 @@ export default {
       },
       async favoriteRecipe() {
         try {
-          props.favorited = true;
+          // props.favorited = true;
           await recipeService.favoriteRecipe(props.recipe);
         } catch (error) {
           Pop.error(error);
@@ -60,8 +56,14 @@ export default {
       },
       async deleteFavorite() {
         try {
-          props.favorited = false;
-          await recipeService.deleteFavorite(props.recipe.id);
+          const yes = await Pop.confirm();
+          if (!yes) {
+            return;
+          }
+          // props.favorited = false;
+          let id = this.favorited.favoriteId;
+          // console.log(this.favorited);
+          await recipeService.deleteFavorite(id);
         } catch (error) {
           Pop.error(error);
         }

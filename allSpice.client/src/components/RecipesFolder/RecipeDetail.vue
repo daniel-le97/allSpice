@@ -2,11 +2,11 @@
   <div class="component container">
     <div class="row">
       <div class="col-6">
-        <div class="row">
-          <div class="col-10">
-            <img :src="recipe?.img" alt="" class="img-fluid" />
-          </div>
-        </div>
+        <img
+          :src="recipe?.img"
+          alt=""
+          class="img-fluid rounded elevation-1 img"
+        />
       </div>
       <div class="col-6" v-show="ingredients">
         <IngredientDetail
@@ -40,4 +40,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.img {
+  height: 20rem;
+  min-width: 20rem;
+  max-width: 20rem;
+}
+</style>

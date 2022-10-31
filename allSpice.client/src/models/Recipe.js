@@ -13,7 +13,8 @@ export class Recipe {
     this.img = data.img;
     this.category = data.category;
     this.favoriteCount = data.favoriteCount;
-    this.archived = data.archived;
+    // this.archived = data.archived;
+    this.favoriteId = data.favoriteId || undefined;
     this.favorited = getFavorite(data.id);
   }
 }

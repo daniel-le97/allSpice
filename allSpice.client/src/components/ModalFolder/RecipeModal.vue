@@ -28,7 +28,7 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary">edit</button>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
 <script>
 import { computed } from "@vue/reactivity";
 import { AppState } from "../../AppState.js";
-import RecipeDetail from "./RecipeDetail.vue";
+import RecipeDetail from "../RecipesFolder/RecipeDetail.vue";
 
 export default {
   setup() {

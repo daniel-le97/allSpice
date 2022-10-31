@@ -13,7 +13,7 @@
       </div>
     </div>
   </div>
-  <button class="rounded-circle position-absolute buttonFix">add</button>
+  <CreateRecipeButton/>
 </template>
 
 <script>
@@ -28,6 +28,7 @@ import Pop from "../utils/Pop.js";
 import { accountService } from "../services/AccountService.js";
 import { AuthService } from "../services/AuthService.js";
 import { onAuthLoaded } from "@bcwdev/auth0provider-client";
+import CreateRecipeButton from "../components/CreateRecipeButton.vue";
 
 export default {
   setup() {
@@ -63,13 +64,10 @@ export default {
       },
     };
   },
-  components: { Banner, RecipeCard },
+  components: { Banner, RecipeCard, CreateRecipeButton },
 };
 </script>
 
 <style scoped lang="scss">
-.buttonFix {
-  position: fixed;
-  bottom: -50px;
-}
+
 </style>
