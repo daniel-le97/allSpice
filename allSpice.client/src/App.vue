@@ -6,8 +6,7 @@
     <router-view />
   </main>
   <RecipeModal />
-  <CreateRecipeModal/>
-
+  <CreateRecipeModal />
 </template>
 
 <script>
@@ -39,6 +38,9 @@ footer {
   height: 32px;
 }
 
-
-
+.modal-open {
+  overflow-y: scroll !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
 </style>

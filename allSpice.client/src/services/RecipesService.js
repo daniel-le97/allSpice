@@ -32,8 +32,9 @@ class RecipeService {
   async createRecipe(recipeData) {
     const res = await api.post("/api/recipes", recipeData);
     AppState.activeRecipe = new Recipe(res.data);
-    AppState.modalForm = 1
+    // AppState.modalForm = 1
     AppState.recipes = [AppState.activeRecipe, ...AppState.recipes];
+    return AppState.activeRecipe;
   }
 }
 export const recipeService = new RecipeService();

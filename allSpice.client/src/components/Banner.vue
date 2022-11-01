@@ -65,6 +65,6 @@ export default {
 
 .overlay {
   bottom: -20px;
-  right: 150px;
+  right: 190px;
 }
 </style>

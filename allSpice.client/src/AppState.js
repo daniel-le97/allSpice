@@ -13,5 +13,7 @@ export const AppState = reactive({
   activeRecipe: null,
   /** @type {import('./models/Ingredient.js').Ingredient[]} */
   activeRecipeIngredients: [],
+  /** @type {import('./models/Ingredient.js').Ingredient[]} */
+  newRecipeIngredients: [],
   modalForm: 0,
 });

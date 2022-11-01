@@ -13,12 +13,12 @@
       </div>
     </div>
   </div>
-  <CreateRecipeButton/>
+  <CreateRecipeButton />
 </template>
 
 <script>
 import { computed } from "@vue/reactivity";
-import { onMounted, watchEffect } from "vue";
+import { onMounted, onUnmounted, watchEffect } from "vue";
 import { AppState } from "../AppState.js";
 import Banner from "../components/Banner.vue";
 import RecipeCard from "../components/RecipesFolder/RecipeCard.vue";
@@ -29,6 +29,7 @@ import { accountService } from "../services/AccountService.js";
 import { AuthService } from "../services/AuthService.js";
 import { onAuthLoaded } from "@bcwdev/auth0provider-client";
 import CreateRecipeButton from "../components/CreateRecipeButton.vue";
+import { ref } from "vue";
 
 export default {
   setup() {
@@ -49,14 +50,30 @@ export default {
 
     onMounted(() => {
       getRecipes();
+      infiniteScroll();
     });
     onAuthLoaded(() => {
       getFavoriteRecipes();
     });
+
+    function infiniteScroll() {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          document.documentElement.scrollTop + window.innerHeight ===
+          document.documentElement.offsetHeight;
+
+        if (bottomOfWindow) {
+          console.log("hi");
+        }
+      };
+    }
+
     return {
       recipes: computed(() => AppState.recipes),
       async getIngredients(recipeId) {
         try {
+          AppState.activeRecipeIngredients = [];
+          console.log(recipeId);
           await ingredientsService.getIngredients(recipeId);
         } catch (error) {
           Pop.error(error);
@@ -68,6 +85,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

@@ -1,6 +1,7 @@
 <template>
   <button
-    class="rounded-circle btn btn-success buttonFix "
+    class="rounded-circle btn btn-success buttonFix"
+    @click="resetActive()"
     data-bs-toggle="modal"
     data-bs-target="#createRecipeModal"
   >
@@ -9,9 +10,17 @@
 </template>
 
 <script>
+import { AppState } from "../AppState.js";
+
 export default {
   setup() {
-    return {};
+    return {
+      resetActive() {
+        AppState.activeRecipe = null;
+        AppState.activeRecipeIngredients = [];
+        AppState.newRecipeIngredients = [];
+      },
+    };
   },
 };
 </script>
