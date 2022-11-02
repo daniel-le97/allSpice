@@ -11,8 +11,8 @@ public class RecipesRepository : BaseRepository
       SELECT LAST_INSERT_ID()
       ;";
         int recipeId = _db.ExecuteScalar<int>(sql, newRecipe);
-        newRecipe.Id = recipeId;
-        return newRecipe;
+        // newRecipe.Id = recipeId;
+        return GetRecipeById(recipeId);
   }
 
   internal List<Recipe> GetAllRecipes(int offset)

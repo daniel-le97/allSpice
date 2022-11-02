@@ -1,7 +1,9 @@
 <template>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <Banner />
+      <div class="col-md-10">
+        <Banner />
+      </div>
     </div>
     <div class="row mt-4">
       <div class="col-md-3" v-for="recipe in recipes" :key="recipe.id">
@@ -29,7 +31,6 @@ import { accountService } from "../services/AccountService.js";
 import { AuthService } from "../services/AuthService.js";
 import { onAuthLoaded } from "@bcwdev/auth0provider-client";
 import CreateRecipeButton from "../components/CreateRecipeButton.vue";
-import { ref } from "vue";
 
 export default {
   setup() {
@@ -46,6 +47,9 @@ export default {
     // NOTE this is for my static fav array not to draw recipes
     async function getFavorites() {
       try {
+        if (!AppState.account.id) {
+          return;
+        }
         await accountService.getMyFavorites();
       } catch (error) {
         Pop.error(error);
@@ -60,6 +64,7 @@ export default {
       getFavorites();
     });
     async function getCurrentRecipes() {
+      // setTimeout(1000);
       let num = AppState.favNumber;
       let offset = AppState.offset;
       console.log(offset);
@@ -73,15 +78,21 @@ export default {
         await accountService.getMyRecipes(offset);
       }
     }
-    async function infiniteScroll() {
-      window.onscroll = async () => {
+    function infiniteScroll() {
+      window.onscroll = (e) => {
         let bottomOfWindow =
           document.documentElement.scrollTop + window.innerHeight ===
           document.documentElement.offsetHeight;
         if (bottomOfWindow) {
-          console.log("hi");
           getCurrentRecipes();
         }
+        // let that =
+        //   document.documentElement.scrollTop + window.innerHeight + 200;
+        // let those = document.documentElement.offsetHeight;
+        // console.log(that, those);
+        // if (that >= those) {
+        //   getCurrentRecipes();
+        // }
       };
     }
 

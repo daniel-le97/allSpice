@@ -19,7 +19,7 @@
         </div>
         <div class="modal-body">
           <RecipeInput v-if="modalForm == 0" />
-          <IngredientInput v-if="modalForm == 1"/>
+          <!-- <IngredientInput v-if="modalForm == 1"/> -->
         </div>
        
       </div>

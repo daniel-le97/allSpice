@@ -30,6 +30,7 @@
   <div class="col-8 mb-5" v-if="ingredients">
     <ul>
       <li v-for="i in ingredients">
+        <i class="mdi mdi-delete" @click.stop="removeIngredient(i)"></i>
         <IngredientDetail :ingredient="i" />
       </li>
     </ul>
@@ -59,6 +60,12 @@ export default {
         } catch (error) {
           Pop.error(error);
         }
+      },
+      removeIngredient(ingredient) {
+        let index = AppState.newRecipeIngredients.findIndex(
+          (i) => i === ingredient
+        );
+        AppState.newRecipeIngredients.splice(index, 1);
       },
     };
   },
