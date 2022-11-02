@@ -15,7 +15,7 @@ public class RecipesRepository : BaseRepository
         return newRecipe;
   }
 
-  internal List<Recipe> GetAllRecipes()
+  internal List<Recipe> GetAllRecipes(int offset)
   {
     string sql = @"SELECT rec.*,
     COUNT(favs.id) AS FavoriteCount,
@@ -26,12 +26,13 @@ public class RecipesRepository : BaseRepository
     LEFT JOIN favorites favs on favs.recipeId = rec.id
     LEFT JOIN ingredients ing on ing.recipeId = rec.id
     GROUP BY rec.id
+    LIMIT 12 OFFSET @offset
    ;";
      return _db.Query<Recipe, Profile, Recipe>(sql ,(recipe, profile) =>
         {
             recipe.Creator = profile;
             return recipe;
-        }).ToList();
+        }, new {offset}).ToList();
   }
 
   internal Recipe GetRecipeById(int recipeId)

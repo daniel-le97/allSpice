@@ -60,6 +60,16 @@ public class FavoritesRepository : BaseRepository
         }
   }
 
+  internal List<Favorite> GetAllFavoritesByAccount(string accountId)
+  {
+    string sql = @"
+    SELECT * FROM favorites
+    WHERE accountId =  @accountId
+    ;";
+    return _db.Query<Favorite>(sql, new {accountId}).ToList();
+
+  }
+
   internal List<FavRecipe> GetFavoritesByAccountId(string accountId)
   {
       string sql = @"SELECT rec.*,

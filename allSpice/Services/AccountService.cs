@@ -50,4 +50,9 @@ public class AccountService
     // }
     return  recipes;
   }
+
+  internal List<Favorite> GetAllFavoritesByAccount(Account userInfo)
+  {
+    return _favRepo.GetAllFavoritesByAccount(userInfo.Id);
+  }
 }

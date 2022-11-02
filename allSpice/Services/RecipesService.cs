@@ -17,9 +17,9 @@ public class RecipesService{
     return _recipeRepo.CreateRecipe(newRecipe);
   }
 
-  internal List<Recipe> GetAllRecipes()
+  internal List<Recipe> GetAllRecipes(int offset)
   {
-    return _recipeRepo.GetAllRecipes();
+    return _recipeRepo.GetAllRecipes(offset);
   }
 
   internal Recipe GetRecipeById(int recipeId)

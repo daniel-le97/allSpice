@@ -12,7 +12,9 @@
         <button class="btn no-select selectable" @click="getAllRecipes">
           home
         </button>
-        <button class="btn no-select selectable" @click="getMyRecipes">recipes</button>
+        <button class="btn no-select selectable" @click="getMyRecipes">
+          recipes
+        </button>
         <button class="btn no-select selectable" @click="getFavorites">
           favorites
         </button>
@@ -22,6 +24,8 @@
 </template>
 
 <script>
+import { computed } from "@vue/reactivity";
+import { AppState } from "../AppState.js";
 import { accountService } from "../services/AccountService.js";
 import { recipeService } from "../services/RecipesService.js";
 import Pop from "../utils/Pop.js";
@@ -29,28 +33,41 @@ import Pop from "../utils/Pop.js";
 export default {
   setup() {
     return {
+      // offset: computed(() => AppState.offset),
       async getFavorites() {
         try {
-          await accountService.getFavorites();
+          let offset = AppState.offset;
+          offset = 0;
+          AppState.favNumber = 1;
+
+          AppState.recipes = []
+          await accountService.getFavoriteRecipes(offset);
         } catch (error) {
           Pop.error(error);
         }
       },
       async getAllRecipes() {
         try {
-          await recipeService.getRecipes();
+          let offset = AppState.offset;
+          offset = 0;
+          AppState.favNumber = 0;
+
+          await recipeService.getRecipes(offset);
         } catch (error) {
           Pop.error(error);
         }
       },
       async getMyRecipes() {
         try {
-          await recipeService.getMyRecipes();
+          let offset = AppState.offset;
+          offset = 0;
+          AppState.favNumber = 2;
+
+          await accountService.getMyRecipes(offset);
         } catch (error) {
           Pop.error(error);
         }
       },
-      
     };
   },
 };

@@ -35,12 +35,16 @@ export default {
   setup() {
     async function getRecipes() {
       try {
-        await recipeService.getRecipes();
+        let offset = AppState.offset;
+
+        await recipeService.getRecipes(offset);
+        offset += 12;
       } catch (error) {
         Pop.error(error);
       }
     }
-    async function getFavoriteRecipes() {
+    // NOTE this is for my static fav array not to draw recipes
+    async function getFavorites() {
       try {
         await accountService.getMyFavorites();
       } catch (error) {
@@ -53,17 +57,34 @@ export default {
       infiniteScroll();
     });
     onAuthLoaded(() => {
-      getFavoriteRecipes();
+      getFavorites();
     });
-
+    async function getCurrentRecipes() {
+      let num = AppState.favNumber;
+      let offset = AppState.offset;
+      if (num == 1) {
+        await accountService.getFavoriteRecipes(offset);
+        offset += 12;
+        return;
+      }
+      if (num == 2) {
+        await accountService.getMyRecipes(offset);
+        offset += 12;
+        return;
+      }
+      if (num == 0) {
+        await recipeService.getRecipes(offset);
+        offset += 12;
+        return;
+      }
+    }
     function infiniteScroll() {
       window.onscroll = () => {
         let bottomOfWindow =
           document.documentElement.scrollTop + window.innerHeight ===
           document.documentElement.offsetHeight;
-
         if (bottomOfWindow) {
-          console.log("hi");
+          getCurrentRecipes();
         }
       };
     }

@@ -90,7 +90,8 @@ export default {
         try {
           editable.value.category = editable.value.category.toLowerCase();
           // console.log(editable.value);
-          const recipeNew = await recipeService.createRecipe(editable.value);
+          const recipeNew = await recipeService.createRecipe(editable.value)
+          console.log(recipeNew);;
 
           editable.value = {};
           for await (const ingredient of AppState.newRecipeIngredients) {
@@ -99,6 +100,8 @@ export default {
               ingredient
             );
           }
+         
+         
           // console.log(AppState.activeRecipeIngredients);
           AppState.newRecipeIngredients = [];
           // AppState.modalForm++

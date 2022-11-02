@@ -9,7 +9,14 @@
     <div class="modal-dialog modal-xl modal-dialog-centered modal-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+          <button
+            class="btn btn-primary"
+            @click="deleteRecipe()"
+            data-bs-dismiss="modal"
+            v-if="owner"
+          >
+            remove Recipe
+          </button>
           <button
             type="button"
             class="btn-close"
@@ -28,7 +35,7 @@
             data-bs-toggle="modal"
             data-bs-target="#createRecipeModal"
           >
-          Ingredients +/-
+            Ingredients +/-
           </button>
           <button
             type="button"
@@ -47,6 +54,8 @@
 <script>
 import { computed } from "@vue/reactivity";
 import { AppState } from "../../AppState.js";
+import { recipeService } from "../../services/RecipesService.js";
+import Pop from "../../utils/Pop.js";
 import RecipeDetail from "../RecipesFolder/RecipeDetail.vue";
 
 export default {
@@ -56,9 +65,17 @@ export default {
       owner: computed(
         () => AppState.activeRecipe?.creatorId == AppState.account.id
       ),
-      getIngredientForm(){
-        AppState.modalForm = 1
-      }
+      getIngredientForm() {
+        AppState.modalForm = 1;
+      },
+      async deleteRecipe() {
+        try {
+          let recipeId = this.recipe.id;
+          await recipeService.deleteRecipe(recipeId);
+        } catch (error) {
+          Pop.error(error);
+        }
+      },
       // ingredients: computed(() => AppState.activeRecipeIngredients)
     };
   },

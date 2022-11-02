@@ -30,6 +30,7 @@
 import { computed } from "@vue/reactivity";
 import { AppState } from "../../AppState.js";
 import { Recipe } from "../../models/Recipe.js";
+import { favoritesService } from "../../services/FavoritesService.js";
 import { recipeService } from "../../services/RecipesService.js";
 import Pop from "../../utils/Pop.js";
 export default {
@@ -39,7 +40,7 @@ export default {
   setup(props) {
     return {
       favorited: computed(() =>
-        AppState.favorites.find((f) => f.id == props.recipe.id)
+        AppState.favorites.find((f) => f.recipeId == props.recipe.id)
       ),
       makeActive(recipeData) {
         if (AppState.activeRecipe != recipeData) {
@@ -48,7 +49,8 @@ export default {
       },
       async favoriteRecipe() {
         try {
-          await recipeService.favoriteRecipe(props.recipe);
+          // AppState.favNumber = 1
+          await favoritesService.favoriteRecipe(props.recipe);
         } catch (error) {
           Pop.error(error);
         }
@@ -59,8 +61,8 @@ export default {
           if (!yes) {
             return;
           }
-          let favoriteId = this.favorited.favoriteId;
-          await recipeService.deleteFavorite(favoriteId);
+          let favoriteId = this.favorited.id;
+          await favoritesService.deleteFavorite(favoriteId);
         } catch (error) {
           Pop.error(error);
         }
@@ -86,7 +88,6 @@ export default {
   background: rgba(204, 243, 253, 0.2);
   border: 1px solid rgba(86, 199, 251, 0.2);
   backdrop-filter: blur(0px);
-  
 
   border-radius: 3px;
 }

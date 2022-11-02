@@ -15,15 +15,16 @@ public class RecipesController : ControllerBase
     _is = @is;
   }
 
-  [HttpGet]
-  public async Task<ActionResult<List<Recipe>>> GetAllRecipes()
+  [HttpGet("{offset}")]
+  public async Task<ActionResult<List<Recipe>>> GetAllRecipes( int offset)
   {
     try
 
     {
+      
       Account userInfo = await _auth0provider.GetUserInfoAsync<Account>(HttpContext);
     
-       List<Recipe> recipes = _rs.GetAllRecipes();
+       List<Recipe> recipes = _rs.GetAllRecipes(offset);
       return Ok(recipes);
     }
     catch (Exception e)
@@ -31,7 +32,7 @@ public class RecipesController : ControllerBase
       return BadRequest(e.Message);
     }
   }
-  [HttpGet("{recipeId}")]
+  [HttpGet("{recipeId}/one")]
   public ActionResult<Recipe> GetRecipeById(int recipeId)
   {
     try
