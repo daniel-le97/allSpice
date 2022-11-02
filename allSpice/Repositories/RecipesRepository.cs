@@ -52,7 +52,7 @@ public class RecipesRepository : BaseRepository
         }, new { recipeId }).First();
   }
 
-  internal List<Recipe> GetRecipesByAccountId(string id)
+  internal List<Recipe> GetRecipesByAccountId(string id, int offset)
   {
    string sql = @"SELECT rec.*,
     COUNT(favs.id) AS FavoriteCount,
@@ -64,12 +64,13 @@ public class RecipesRepository : BaseRepository
     LEFT JOIN ingredients ing on ing.recipeId = rec.id
     WHERE rec.creatorId = @id
     GROUP BY rec.id
+    LIMIT 12 OFFSET @offset
    ;";
       return _db.Query<Recipe, Profile, Recipe>(sql ,(recipe, profile) =>
         {
             recipe.Creator = profile;
             return recipe;
-        }, new {id}).ToList();
+        }, new {id, offset}).ToList();
   }
 
   internal void DeleteRecipe(Recipe recipe)

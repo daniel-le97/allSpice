@@ -63,6 +63,7 @@ export default {
           }
           let favoriteId = this.favorited.id;
           await favoritesService.deleteFavorite(favoriteId);
+          Pop.success(`${props.recipe.title} removed`)
         } catch (error) {
           Pop.error(error);
         }

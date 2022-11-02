@@ -20,12 +20,20 @@ class AccountService {
       },
     });
     let favoriteRecipes = res.data.map((r) => new Recipe(r));
-    AppState.recipes = [...AppState.recipes, favoriteRecipes];
+    AppState.recipes = [...AppState.recipes, ...favoriteRecipes];
+    AppState.offset += favoriteRecipes.length;
   }
-  async getMyRecipes() {
-    const res = await api.get(`/account/recipes`);
+  async getMyRecipes(offset) {
+    const res = await api.get(`/account/recipes`, {
+      params: {
+        offset: offset,
+      },
+    });
     // console.log(res.data);
-    AppState.recipes = res.data.map((r) => new Recipe(r));
+    let myRecipes = res.data.map((r) => new Recipe(r));
+    AppState.recipes = [...AppState.recipes, ...myRecipes];
+
+    AppState.offset += myRecipes.length;
   }
   async getMyFavorites() {
     const res = await api.get("/account/favorites/all");

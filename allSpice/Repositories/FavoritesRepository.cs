@@ -70,7 +70,7 @@ public class FavoritesRepository : BaseRepository
 
   }
 
-  internal List<FavRecipe> GetFavoritesByAccountId(string accountId)
+  internal List<FavRecipe> GetFavoritesByAccountId(string accountId, int offset)
   {
       string sql = @"SELECT rec.*,
        COUNT(fav.id) AS FavoriteCount,
@@ -82,6 +82,7 @@ public class FavoritesRepository : BaseRepository
        JOIN accounts a ON a.id = rec.creatorId
        WHERE fav.accountId = @accountId
        GROUP BY fav.id
+       limit 12 OFFSET @offset
        ;";
         return _db.Query<FavRecipe, Profile, FavRecipe>(sql, (recipe, profile) =>
         {
@@ -89,6 +90,6 @@ public class FavoritesRepository : BaseRepository
             recipe.AccountId = profile.Id;
             recipe.favorited = true;
             return recipe;
-        }, new { accountId }).ToList();
+        }, new { accountId, offset }).ToList();
   }
 }

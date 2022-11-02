@@ -4,7 +4,7 @@
       <Banner />
     </div>
     <div class="row mt-4">
-      <div class="col-3" v-for="recipe in recipes" :key="recipe.id">
+      <div class="col-md-3" v-for="recipe in recipes" :key="recipe.id">
         <RecipeCard
           :recipe="recipe"
           class="m-3"
@@ -62,28 +62,24 @@ export default {
     async function getCurrentRecipes() {
       let num = AppState.favNumber;
       let offset = AppState.offset;
+      console.log(offset);
+      if (num == 0) {
+        await recipeService.getRecipes(offset);
+      }
       if (num == 1) {
         await accountService.getFavoriteRecipes(offset);
-        offset += 12;
-        return;
       }
       if (num == 2) {
         await accountService.getMyRecipes(offset);
-        offset += 12;
-        return;
-      }
-      if (num == 0) {
-        await recipeService.getRecipes(offset);
-        offset += 12;
-        return;
       }
     }
-    function infiniteScroll() {
-      window.onscroll = () => {
+    async function infiniteScroll() {
+      window.onscroll = async () => {
         let bottomOfWindow =
           document.documentElement.scrollTop + window.innerHeight ===
           document.documentElement.offsetHeight;
         if (bottomOfWindow) {
+          console.log("hi");
           getCurrentRecipes();
         }
       };

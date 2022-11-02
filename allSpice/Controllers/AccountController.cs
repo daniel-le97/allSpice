@@ -31,12 +31,12 @@ public class AccountController : ControllerBase
   }
 
    [HttpGet("favorites")]
-  public async Task<ActionResult<List<FavRecipe>>> GetFavoritesByAccountId( )
+  public async Task<ActionResult<List<FavRecipe>>> GetFavoritesByAccountId([FromQuery] int offset )
   {
     try
     { 
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-      List<FavRecipe> favorites = _accountService.GetFavoritesByAccountId(userInfo);
+      List<FavRecipe> favorites = _accountService.GetFavoritesByAccountId(userInfo, offset);
       return Ok(favorites);
     }
     catch (Exception e)
@@ -59,12 +59,12 @@ public class AccountController : ControllerBase
     }
   }
    [HttpGet("recipes")]
-  public async Task<ActionResult<List<Recipe>>> GetRecipesByAccountId()
+  public async Task<ActionResult<List<Recipe>>> GetRecipesByAccountId([FromQuery] int offset )
   {
     try
     { 
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-      List<Recipe> recipes = _accountService.GetRecipesByAccountId(userInfo);
+      List<Recipe> recipes = _accountService.GetRecipesByAccountId(userInfo, offset);
       return Ok(recipes);
     }
     catch (Exception e)

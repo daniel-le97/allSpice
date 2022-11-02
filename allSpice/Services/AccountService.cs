@@ -36,14 +36,14 @@ public class AccountService
     return _repo.Edit(original);
   }
 
-  internal List<FavRecipe> GetFavoritesByAccountId(Account userInfo)
+  internal List<FavRecipe> GetFavoritesByAccountId(Account userInfo, int offset)
   {
-    return _favRepo.GetFavoritesByAccountId(userInfo.Id);
+    return _favRepo.GetFavoritesByAccountId(userInfo.Id, offset);
   }
 
-  internal List<Recipe> GetRecipesByAccountId(Account userInfo)
+  internal List<Recipe> GetRecipesByAccountId(Account userInfo, int offset)
   {
-    List<Recipe> recipes = _recRepo.GetRecipesByAccountId(userInfo.Id);
+    List<Recipe> recipes = _recRepo.GetRecipesByAccountId(userInfo.Id, offset);
     // foreach (var recipe in recipes)
     // {
     //   recipe.Creator = userInfo;
