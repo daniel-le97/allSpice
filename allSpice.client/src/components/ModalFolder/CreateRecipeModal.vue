@@ -18,10 +18,9 @@
           ></button>
         </div>
         <div class="modal-body">
-          <RecipeInput v-if="modalForm == 0" />
+          <RecipeInput />
           <!-- <IngredientInput v-if="modalForm == 1"/> -->
         </div>
-       
       </div>
     </div>
   </div>

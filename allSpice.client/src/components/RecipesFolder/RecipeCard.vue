@@ -1,12 +1,12 @@
 <template>
-  <div class="card text-shadow">
+  <div class="card text-shadow skelton-loader">
     <img :src="recipe.img" class="card-img img-fluid imgSize" alt="..." />
     <div>hello</div>
     <div class="card-img-overlay p-1 px-2 event">
       <div class="d-flex justify-content-between">
         <i
           class="mdi mdi-heart text-danger"
-          @click="deleteFavorite()"
+          @click="deleteFavorite(favorited, index)"
           v-if="favorited"
         ></i>
         <i class="mdi mdi-heart" @click="favoriteRecipe()" v-else></i>
@@ -39,9 +39,17 @@ export default {
   },
   setup(props) {
     return {
-      favorited: computed(() =>
-        AppState.favorites.find((f) => f.recipeId == props.recipe.id)
-      ),
+      favorited: computed(() => {
+        let favorited = AppState.favorites.find(
+          (f, index) => f.recipeId == props.recipe.id
+        );
+        if (favorited) {
+          let recipe = AppState.recipes.find((r) => r.id == favorited.recipeId);
+          recipe.favorited = true;
+          recipe.favoriteId = favorited.id;
+        }
+        return favorited;
+      }),
       makeActive(recipeData) {
         if (AppState.activeRecipe != recipeData) {
           AppState.activeRecipe = recipeData;
@@ -49,21 +57,21 @@ export default {
       },
       async favoriteRecipe() {
         try {
-          // AppState.favNumber = 1
           await favoritesService.favoriteRecipe(props.recipe);
         } catch (error) {
           Pop.error(error);
         }
       },
-      async deleteFavorite() {
+      async deleteFavorite(favorited, index) {
         try {
           const yes = await Pop.confirm();
           if (!yes) {
             return;
           }
+          console.log(favorited, index);
           let favoriteId = this.favorited.id;
           await favoritesService.deleteFavorite(favoriteId);
-          Pop.success(`${props.recipe.title} removed`)
+          Pop.success(`${props.recipe.title} removed from favorites`);
         } catch (error) {
           Pop.error(error);
         }

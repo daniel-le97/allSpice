@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleRecipeSubmit()">
+  <form @submit.prevent="modalForm == 0 ? handleRecipeSubmit() : handleEdit()">
     <div
       class="d-flex justify-content-between gap-2 position-absolute buttons mb-3 me-3"
     >
@@ -23,6 +23,8 @@
             id="recipeTitle"
             v-model="editable.title"
             required
+            minlength="2"
+            maxlength="100"
           />
         </div>
         <div class="mb-3">
@@ -32,6 +34,8 @@
             class="form-control"
             id="recipeCategory"
             v-model="editable.category"
+              minlength="1"
+            maxlength="100"
           />
         </div>
         <div class="mb-3">
@@ -43,6 +47,7 @@
             class="form-control"
             id="recipeImg"
             v-model="editable.img"
+            required
           />
         </div>
         <div class="mb-3">
@@ -52,6 +57,7 @@
             id="recipeInstruction"
             rows="3"
             v-model="editable.instructions"
+            required
           ></textarea>
         </div>
       </div>
@@ -74,7 +80,9 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed } from "@vue/reactivity";
+import { Modal } from "bootstrap";
+import { ref, watchEffect } from "vue";
 import { AppState } from "../../AppState.js";
 import { ingredientsService } from "../../services/IngredientsService.js";
 import { recipeService } from "../../services/RecipesService.js";
@@ -84,27 +92,45 @@ import Hello from "../Hello.vue";
 export default {
   setup() {
     const editable = ref({});
+    watchEffect(() => {
+      if (AppState.modalForm == 1) {
+        editable.value = { ...AppState.activeRecipe };
+      }
+    });
     return {
       editable,
+      modalForm: computed(() => AppState.modalForm),
       async handleRecipeSubmit() {
         try {
           editable.value.category = editable.value.category.toLowerCase();
           // console.log(editable.value);
-          const recipeNew = await recipeService.createRecipe(editable.value)
-          console.log(recipeNew);;
+          const recipeNew = await recipeService.createRecipe(editable.value);
+          console.log(recipeNew);
 
-          editable.value = {};
           for await (const ingredient of AppState.newRecipeIngredients) {
             ingredient.recipeId = recipeNew.id;
             const newIngredients = await ingredientsService.createIngredient(
               ingredient
             );
           }
-         
-         
-          // console.log(AppState.activeRecipeIngredients);
+
+          editable.value = {};
           AppState.newRecipeIngredients = [];
-          // AppState.modalForm++
+        } catch (error) {
+          Pop.error(error);
+        }
+      },
+      async handleEdit() {
+        try {
+          const yes = await Pop.confirm();
+          if (!yes) {
+            return;
+          }
+          editable.value.category = editable.value.category.toLowerCase();
+          const updated = await recipeService.editRecipe(editable.value);
+          editable.value = {};
+          AppState.modalForm = 0;
+          Modal.getOrCreateInstance("#createRecipeModal").hide();
         } catch (error) {
           Pop.error(error);
         }

@@ -40,13 +40,17 @@ class AccountService {
     // console.log(res.data);
     AppState.favorites = res.data.map((r) => new Favorite(r));
     console.log(AppState.favorites);
-    AppState.recipes.map((r) => {
-      let fav = AppState.favorites.find((f) => f.recipeId == r.id);
-      if (fav) {
-        r.favorited = true;
-        r.favoriteId = fav.id;
-      }
-    });
+
+    // let start = performance.now();
+    // for (const recipe of AppState.recipes) {
+    //   let fav = AppState.favorites.find((f) => f.recipeId == recipe.id);
+    //   if (fav) {
+    //     recipe.favorited = true;
+    //     recipe.favoriteId = fav.id;
+    //   }
+    // }
+    // let end = performance.now();
+    // console.log(start, end);
   }
 }
 

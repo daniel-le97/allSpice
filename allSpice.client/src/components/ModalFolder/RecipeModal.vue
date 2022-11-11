@@ -9,14 +9,17 @@
     <div class="modal-dialog modal-xl modal-dialog-centered modal-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <button
-            class="btn btn-primary"
-            @click="deleteRecipe()"
-            data-bs-dismiss="modal"
-            v-if="owner"
-          >
-            remove Recipe
-          </button>
+          <i
+            class="mdi mdi-heart mdi-spin fs-1"
+            @click="deleteFavorite(recipe.favoriteId)"
+            v-if="!recipe.favorited"
+          ></i>
+          <i
+            class="mdi mdi-heart mdi-spin fs-1 text-danger"
+            @click="favoriteRecipe()"
+            v-else
+          ></i>
+
           <button
             type="button"
             class="btn-close"
@@ -27,24 +30,36 @@
         <div class="modal-body">
           <RecipeDetail :recipe="recipe" v-if="recipe" />
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="getIngredientForm"
-            data-bs-toggle="modal"
-            data-bs-target="#createRecipeModal"
-          >
-            Ingredients +/-
-          </button>
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-          <button type="button" class="btn btn-primary">edit</button>
+        <div class="modal-footer d-flex justify-content-between">
+          <div>
+            <button
+              class="btn btn-primary"
+              @click="deleteRecipe()"
+              data-bs-dismiss="modal"
+              v-if="owner"
+            >
+              remove Recipe
+            </button>
+          </div>
+          <div class="d-flex gap-2">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="editActive()"
+              data-bs-toggle="modal"
+              data-bs-target="#createRecipeModal"
+              v-if="owner"
+            >
+              edit
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -54,6 +69,8 @@
 <script>
 import { computed } from "@vue/reactivity";
 import { AppState } from "../../AppState.js";
+import { favoritesService } from "../../services/FavoritesService";
+import { ingredientsService } from "../../services/IngredientsService";
 import { recipeService } from "../../services/RecipesService.js";
 import Pop from "../../utils/Pop.js";
 import RecipeDetail from "../RecipesFolder/RecipeDetail.vue";
@@ -65,13 +82,40 @@ export default {
       owner: computed(
         () => AppState.activeRecipe?.creatorId == AppState.account.id
       ),
-      getIngredientForm() {
-        AppState.modalForm = 1;
-      },
+
       async deleteRecipe() {
         try {
           let recipeId = this.recipe.id;
           await recipeService.deleteRecipe(recipeId);
+        } catch (error) {
+          Pop.error(error);
+        }
+      },
+      async editActive() {
+        try {
+          AppState.modalForm = 1;
+          // await ingredientsService.getIngredients(this.recipe.id)
+        } catch (error) {
+          Pop.error(error);
+        }
+      },
+      async favoriteRecipe() {
+        try {
+          // AppState.favNumber = 1
+          await favoritesService.favoriteRecipe(AppState.activeRecipe.id);
+        } catch (error) {
+          Pop.error(error);
+        }
+      },
+      async deleteFavorite(id) {
+        try {
+          const yes = await Pop.confirm();
+          if (!yes) {
+            return;
+          }
+          // AppState.favNumber = 1
+          await favoritesService.deleteFavorite(id);
+          AppState.activeRecipe.favorited = false;
         } catch (error) {
           Pop.error(error);
         }

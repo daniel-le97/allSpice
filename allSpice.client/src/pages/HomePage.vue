@@ -6,7 +6,13 @@
       </div>
     </div>
     <div class="row mt-4">
-      <div class="col-md-3" v-for="recipe in recipes" :key="recipe.id">
+      <div
+        class="col-md-3"
+        ref="scrollComponent"
+        v-for="recipe in recipes"
+        :key="recipe.id"
+        :class="!recipe ? 'skeleton-loader' : ''"
+      >
         <RecipeCard
           :recipe="recipe"
           class="m-3"
@@ -25,11 +31,11 @@ import { AppState } from "../AppState.js";
 import Banner from "../components/Banner.vue";
 import RecipeCard from "../components/RecipesFolder/RecipeCard.vue";
 import { recipeService } from "../services/RecipesService.js";
-import { ingredientsService } from "../services/IngredientsService.js";
 import Pop from "../utils/Pop.js";
 import { accountService } from "../services/AccountService.js";
 import { AuthService } from "../services/AuthService.js";
 import { onAuthLoaded } from "@bcwdev/auth0provider-client";
+import { ingredientsService } from "../services/IngredientsService";
 import CreateRecipeButton from "../components/CreateRecipeButton.vue";
 
 export default {
@@ -39,7 +45,7 @@ export default {
         let offset = AppState.offset;
 
         await recipeService.getRecipes(offset);
-        offset += 12;
+        // offset += 12;
       } catch (error) {
         Pop.error(error);
       }
@@ -47,9 +53,6 @@ export default {
     // NOTE this is for my static fav array not to draw recipes
     async function getFavorites() {
       try {
-        if (!AppState.account.id) {
-          return;
-        }
         await accountService.getMyFavorites();
       } catch (error) {
         Pop.error(error);
@@ -86,16 +89,8 @@ export default {
         if (bottomOfWindow) {
           getCurrentRecipes();
         }
-        // let that =
-        //   document.documentElement.scrollTop + window.innerHeight + 200;
-        // let those = document.documentElement.offsetHeight;
-        // console.log(that, those);
-        // if (that >= those) {
-        //   getCurrentRecipes();
-        // }
       };
     }
-
     return {
       recipes: computed(() => AppState.recipes),
       async getIngredients(recipeId) {
