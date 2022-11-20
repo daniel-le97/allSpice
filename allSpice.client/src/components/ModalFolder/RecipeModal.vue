@@ -12,12 +12,12 @@
           <i
             class="mdi mdi-heart mdi-spin fs-1"
             @click="deleteFavorite(recipe.favoriteId)"
-            v-if="!recipe.favorited"
+         
           ></i>
           <i
             class="mdi mdi-heart mdi-spin fs-1 text-danger"
             @click="favoriteRecipe()"
-            v-else
+        
           ></i>
 
           <button
@@ -115,7 +115,7 @@ export default {
           }
           // AppState.favNumber = 1
           await favoritesService.deleteFavorite(id);
-          AppState.activeRecipe.favorited = false;
+          // AppState.activeRecipe.favorited = false;
         } catch (error) {
           Pop.error(error);
         }

@@ -15,3 +15,4 @@ global using allSpice.Repositories;
 global using allSpice.Services;
 global using allSpice.Models;
 global using allSpice.Interfaces;
+global using allSpice.Hubs;

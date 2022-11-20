@@ -37,6 +37,7 @@ import { AuthService } from "../services/AuthService.js";
 import { onAuthLoaded } from "@bcwdev/auth0provider-client";
 import { ingredientsService } from "../services/IngredientsService";
 import CreateRecipeButton from "../components/CreateRecipeButton.vue";
+import {hubsService} from "../services/HubsService.js"
 
 export default {
   setup() {
@@ -58,8 +59,18 @@ export default {
         Pop.error(error);
       }
     }
+     async function hub(){
+      try {
+          await hubsService.start()
+        } catch (error) {
+          console.error('[]',error)
+          Pop.error(error)
+        }
+     
+      }
 
     onMounted(() => {
+ 
       getRecipes();
       infiniteScroll();
     });

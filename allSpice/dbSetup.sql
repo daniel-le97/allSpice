@@ -1,4 +1,4 @@
--- Active: 1666715470309@@SG-flat-record-3002-6839-mysql-master.servers.mongodirector.com@3306@garbageDemo
+-- Active: 1668895251805@@bobocat.mysql.database.azure.com@3306@bobocat
 
 CREATE TABLE
     IF NOT EXISTS accounts(

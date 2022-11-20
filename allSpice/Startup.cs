@@ -24,6 +24,7 @@ public class Startup
     ConfigureCors(services);
     ConfigureAuth(services);
     services.AddControllers();
+    services.AddSignalR();
     services.AddSwaggerGen(c =>
     {
       c.SwaggerDoc("v1", new OpenApiInfo { Title = "allSpice", Version = "v1" });
@@ -44,8 +45,6 @@ public class Startup
 
     services.AddTransient<FavoritesRepository>();
     services.AddTransient<FavoritesService>();
-
-  
   }
 
   private void ConfigureCors(IServiceCollection services)
@@ -112,6 +111,7 @@ public class Startup
     app.UseEndpoints(endpoints =>
     {
       endpoints.MapControllers();
+      endpoints.MapHub<UpdatesHub>("/Hubs/UpdatesHub");
     });
   }
 }

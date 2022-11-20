@@ -4,7 +4,6 @@
       class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0"
       @click="login"
       v-if="!user.isAuthenticated"
-      :class="!user.isAuthenticated ? 'skeleton-loader' : ''"
     >
       Login
     </button>
@@ -59,6 +58,7 @@ export default {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
       async login() {
+        console.log('hi');
         AuthService.loginWithPopup();
       },
       async logout() {
