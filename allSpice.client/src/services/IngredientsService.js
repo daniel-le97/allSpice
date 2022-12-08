@@ -5,7 +5,7 @@ import { api } from "./AxiosService.js";
 class IngredientsService {
   async getIngredients(recipeId) {
     const res = await api.get(`/api/recipes/${recipeId}/ingredients`);
-    console.log(res.data);
+    // console.log(res.data);
     AppState.activeRecipeIngredients = res.data.map((i) => new Ingredient(i));
     // console.log(AppState.activeRecipeIngredients);
   }
@@ -15,11 +15,11 @@ class IngredientsService {
       ...AppState.activeRecipeIngredients,
       new Ingredient(res.data),
     ];
-    console.log("another ingredient added");
+    // console.log("another ingredient added");
   }
   async deleteIngredient(index, ingID) {
     const res = await api.delete("api/ingredients/" + ingID);
-    console.log(res.data);
+    // console.log(res.data);
     AppState.activeRecipeIngredients.splice(index,1)
   }
 }

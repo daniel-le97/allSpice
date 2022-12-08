@@ -63,7 +63,7 @@ export default {
       try {
           await hubsService.start()
         } catch (error) {
-          console.error('[]',error)
+          // console.error('[]',error)
           Pop.error(error)
         }
      
@@ -81,7 +81,7 @@ export default {
       // setTimeout(1000);
       let num = AppState.favNumber;
       let offset = AppState.offset;
-      console.log(offset);
+      // console.log(offset);
       if (num == 0) {
         await recipeService.getRecipes(offset);
       }
@@ -107,7 +107,7 @@ export default {
       async getIngredients(recipeId) {
         try {
           AppState.activeRecipeIngredients = [];
-          console.log(recipeId);
+          // console.log(recipeId);
           await ingredientsService.getIngredients(recipeId);
         } catch (error) {
           Pop.error(error);

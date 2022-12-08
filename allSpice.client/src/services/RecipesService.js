@@ -35,7 +35,7 @@ class RecipeService {
       `api/recipes/${editableData.recipeId}`,
       editableData
     );
-    console.log(res.data);
+    // console.log(res.data);
     let recipe = new Recipe(res.data);
     AppState.activeRecipe = recipe;
     let index = AppState.recipes.findIndex(

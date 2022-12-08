@@ -58,7 +58,7 @@ export default {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
       async login() {
-        console.log('hi');
+        // console.log('hi');
         AuthService.loginWithPopup();
       },
       async logout() {

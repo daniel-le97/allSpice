@@ -105,7 +105,7 @@ export default {
           editable.value.category = editable.value.category.toLowerCase();
           // console.log(editable.value);
           const recipeNew = await recipeService.createRecipe(editable.value);
-          console.log(recipeNew);
+          // console.log(recipeNew);
 
           for await (const ingredient of AppState.newRecipeIngredients) {
             ingredient.recipeId = recipeNew.id;
