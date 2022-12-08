@@ -4,9 +4,9 @@ name: Deploy to heroku.
 # Run workflow on every push to master branch
 on:
   push:
-    branches: [main]
+    branches: [deploy]
 
-# Your workflows job
+# Your workflows jobs.
 jobs:
   build:
     runs-on: ubuntu-latest
