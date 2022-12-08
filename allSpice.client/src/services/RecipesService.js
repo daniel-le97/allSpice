@@ -28,12 +28,12 @@ class RecipeService {
     // AppState.activeRecipe = null
     // console.log(res.data);
   }
-  async editRecipe(editableData) {
+  async editRecipe(editableDataA) {
     editableData.recipeId = AppState.activeRecipe.id;
     // console.log(editableData);
     const res = await api.put(
       `api/recipes/${editableData.recipeId}`,
-      editableData
+      editableDataA
     );
     // console.log(res.data);
     let recipe = new Recipe(res.data);
