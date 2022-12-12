@@ -100,7 +100,6 @@ export default {
           }
           await ingredientsService.deleteIngredient(index, ingID);
         } catch (error) {
-          console.error("[]", error);
           Pop.error(error);
         }
       },
