@@ -10,7 +10,7 @@
         <div class="modal-header">
           <i
             class="mdi mdi-heart fs-1"
-            @click="deleteFavorite(recipe.favoriteId)"
+            @click="deleteFavorite(recipe)"
             v-if="recipe?.favoriteId"
           ></i>
           <i
@@ -109,14 +109,17 @@ export default {
           Pop.error(error);
         }
       },
-      async deleteFavorite(id) {
+      async deleteFavorite() {
         try {
           const yes = await Pop.confirm();
           if (!yes) {
             return;
           }
           // AppState.favNumber = 1
-          await favoritesService.deleteFavorite(id);
+          if (AppState.activeRecipe?.favoriteId) {
+            
+            await favoritesService.deleteFavorite(AppState.activeRecipe.favoriteId);
+          }
           // AppState.activeRecipe.favorited = false;
         } catch (error) {
           Pop.error(error);
