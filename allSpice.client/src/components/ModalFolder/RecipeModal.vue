@@ -104,7 +104,7 @@ export default {
       async favoriteRecipe() {
         try {
           // AppState.favNumber = 1
-          await favoritesService.favoriteRecipe(AppState.activeRecipe.id);
+          await favoritesService.favoriteRecipe(AppState.activeRecipe);
         } catch (error) {
           Pop.error(error);
         }
