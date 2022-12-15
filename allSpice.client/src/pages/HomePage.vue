@@ -33,8 +33,8 @@ import RecipeCard from "../components/RecipesFolder/RecipeCard.vue";
 import { recipeService } from "../services/RecipesService.js";
 import Pop from "../utils/Pop.js";
 import { accountService } from "../services/AccountService.js";
-import { AuthService } from "../services/AuthService.js";
-import { onAuthLoaded } from "@bcwdev/auth0provider-client";
+// import { AuthService } from "../services/AuthService.js";
+// import { onAuthLoaded } from "@bcwdev/auth0provider-client";
 import { ingredientsService } from "../services/IngredientsService";
 import CreateRecipeButton from "../components/CreateRecipeButton.vue";
 import {hubsService} from "../services/HubsService.js"
@@ -51,32 +51,15 @@ export default {
         Pop.error(error);
       }
     }
-    // NOTE this is for my static fav array not to draw recipes
-    async function getFavorites() {
-      try {
-        await accountService.getMyFavorites();
-      } catch (error) {
-        Pop.error(error);
-      }
-    }
-     async function hub(){
-      try {
-          await hubsService.start()
-        } catch (error) {
-          // console.error('[]',error)
-          Pop.error(error)
-        }
-     
-      }
+
+
 
     onMounted(() => {
  
       getRecipes();
       infiniteScroll();
     });
-    onAuthLoaded(() => {
-      getFavorites();
-    });
+  
     async function getCurrentRecipes() {
       // setTimeout(1000);
       let num = AppState.favNumber;
