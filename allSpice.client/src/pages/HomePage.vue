@@ -88,6 +88,7 @@ export default {
       async getIngredients(recipeData) {
         try {
           if (AppState.activeRecipe == recipeData) {
+            Modal.getOrCreateInstance("#exampleModal").show()
             return;
           }
           AppState.activeRecipe = recipeData;
