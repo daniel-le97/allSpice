@@ -1,7 +1,6 @@
 <template>
   <div class="card text-shadow skelton-loader">
     <img :src="recipe.img" class="card-img img-fluid imgSize" alt="..." />
-    <div>hello</div>
     <div class="card-img-overlay p-1 px-2 event">
       <div class="d-flex justify-content-between">
         <i
@@ -12,9 +11,7 @@
         <i class="mdi mdi-heart" @click="favoriteRecipe()" v-else></i>
       </div>
       <div
-        @click="makeActive(recipe)"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
+        class=""
       >
         <h5 class="card-title">{{ recipe.title }}</h5>
         <p class="card-text">{{ recipe.instructions }}</p>

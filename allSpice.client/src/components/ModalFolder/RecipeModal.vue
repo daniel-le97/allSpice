@@ -10,14 +10,14 @@
       <div class="modal-content">
         <div class="modal-header">
           <i
-            class="mdi mdi-heart mdi-spin fs-1"
+            class="mdi mdi-heart fs-1"
             @click="deleteFavorite(recipe.favoriteId)"
-         
+            v-if="recipe?.favoriteId"
           ></i>
           <i
-            class="mdi mdi-heart mdi-spin fs-1 text-danger"
+            v-else
+            class="mdi mdi-heart fs-1 text-danger"
             @click="favoriteRecipe()"
-        
           ></i>
 
           <button
@@ -81,6 +81,9 @@ export default {
       recipe: computed(() => AppState.activeRecipe),
       owner: computed(
         () => AppState.activeRecipe?.creatorId == AppState.account.id
+      ),
+      favorited: computed(() =>
+        AppState.recipes.find((r) => r.id == AppState.activeRecipe?.id)
       ),
 
       async deleteRecipe() {

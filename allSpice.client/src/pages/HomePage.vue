@@ -16,7 +16,7 @@
         <RecipeCard
           :recipe="recipe"
           class="m-3"
-          @click="getIngredients(recipe.id)"
+          @click="getIngredients(recipe)"
         />
       </div>
     </div>
@@ -37,7 +37,7 @@ import { accountService } from "../services/AccountService.js";
 // import { onAuthLoaded } from "@bcwdev/auth0provider-client";
 import { ingredientsService } from "../services/IngredientsService";
 import CreateRecipeButton from "../components/CreateRecipeButton.vue";
-import {hubsService} from "../services/HubsService.js"
+import { hubsService } from "../services/HubsService.js";
 
 export default {
   setup() {
@@ -52,14 +52,11 @@ export default {
       }
     }
 
-
-
     onMounted(() => {
- 
       getRecipes();
       infiniteScroll();
     });
-  
+
     async function getCurrentRecipes() {
       // setTimeout(1000);
       let num = AppState.favNumber;
@@ -87,11 +84,15 @@ export default {
     }
     return {
       recipes: computed(() => AppState.recipes),
-      async getIngredients(recipeId) {
+      async getIngredients(recipeData) {
         try {
+          if (AppState.activeRecipe == recipeData) {
+            return;
+          }
+          AppState.activeRecipe = recipeData;
           AppState.activeRecipeIngredients = [];
           // console.log(recipeId);
-          await ingredientsService.getIngredients(recipeId);
+          await ingredientsService.getIngredients(recipeData.id);
         } catch (error) {
           Pop.error(error);
         }

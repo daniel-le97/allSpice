@@ -8,7 +8,7 @@
           class="img-fluid rounded elevation-1 img"
         />
       </div>
-      <div class="col-6" v-show="ingredients">
+      <div class="col-6" v-if="ingredients">
         <div>
           <span class="fs-4">
             Ingredients
@@ -19,6 +19,13 @@
           :key="i.id"
           :ingredient="i"
         />
+      </div>
+      <div class="col-6" v-else>
+        <div>
+          <span class="fs-4">
+            No details found
+          </span>
+        </div>
       </div>
     </div>
   </div>
