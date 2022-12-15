@@ -38,6 +38,7 @@ import { accountService } from "../services/AccountService.js";
 import { ingredientsService } from "../services/IngredientsService";
 import CreateRecipeButton from "../components/CreateRecipeButton.vue";
 import { hubsService } from "../services/HubsService.js";
+import { Modal } from "bootstrap";
 
 export default {
   setup() {
@@ -90,6 +91,7 @@ export default {
             return;
           }
           AppState.activeRecipe = recipeData;
+          Modal.getOrCreateInstance("#exampleModal")
           AppState.activeRecipeIngredients = [];
           // console.log(recipeId);
           await ingredientsService.getIngredients(recipeData.id);
