@@ -44,6 +44,7 @@ import { computed } from "@vue/reactivity";
 import { AppState } from "../AppState.js";
 
 import { accountService } from "../services/AccountService.js";
+import { AuthService } from "../services/AuthService";
 import { recipeService } from "../services/RecipesService.js";
 import Pop from "../utils/Pop.js";
 import Login from "./Login.vue";
@@ -61,6 +62,10 @@ export default {
       number: computed(() => AppState.favNumber),
       async getFavorites() {
         try {
+           if (!AppState.account?.id) {
+            AuthService.loginWithPopup();
+            return
+          }
           AppState.favNumber = 1;
           AppState.offset = 0;
           AppState.recipes = [];
@@ -81,6 +86,10 @@ export default {
       },
       async getMyRecipes() {
         try {
+          if (!AppState.account?.id) {
+            AuthService.loginWithPopup();
+            return
+          }
           AppState.favNumber = 2;
           AppState.offset = 0;
           AppState.recipes = [];
