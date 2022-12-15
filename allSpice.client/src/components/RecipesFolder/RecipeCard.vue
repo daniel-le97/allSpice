@@ -2,17 +2,15 @@
   <div class="card text-shadow skelton-loader">
     <img :src="recipe.img" class="card-img img-fluid imgSize" alt="..." />
     <div class="card-img-overlay p-1 px-2 event">
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between index">
         <i
-          class="mdi mdi-heart text-danger"
+          class="mdi mdi-heart text-danger fs-3"
           @click="deleteFavorite(favorited, index)"
           v-if="favorited"
         ></i>
-        <i class="mdi mdi-heart" @click="favoriteRecipe()" v-else></i>
+        <i class="mdi mdi-heart fs-3" @click="favoriteRecipe()" v-else></i>
       </div>
-      <div
-        class=""
-      >
+      <div class="">
         <h5 class="card-title">{{ recipe.title }}</h5>
         <p class="card-text">{{ recipe.instructions }}</p>
         <p class="card-text">
@@ -79,6 +77,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.index {
+  z-index: 9999 !important;
+}
 .imgSize {
   height: 20rem;
 }

@@ -15,6 +15,9 @@ class FavoritesService {
     const res = await api.delete(`/api/favorites/${favoriteId}`);
     let favIndex = AppState.favorites.findIndex((f) => f.id == favoriteId);
     AppState.favorites.splice(favIndex, 1);
+   let recipe = AppState.recipes.find(r => r.favoriteId == favoriteId)
+   recipe.favorited = false
+   recipe.favoriteId = ""
     if (AppState.favNumber == 1) {
       AppState.recipes = AppState.recipes.filter(
         (r) => r.favoriteId != favoriteId
