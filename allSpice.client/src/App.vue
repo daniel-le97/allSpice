@@ -5,7 +5,7 @@
   <main>
     <router-view />
   </main>
-  <RecipeModal />
+  <RecipeModal id="exampleModal"/>
   <CreateRecipeModal />
 </template>
 

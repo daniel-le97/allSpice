@@ -91,7 +91,7 @@ export default {
             return;
           }
           AppState.activeRecipe = recipeData;
-          Modal.getOrCreateInstance("exampleModal").show()
+          // Modal.getOrCreateInstance("exampleModal").show()
           AppState.activeRecipeIngredients = [];
           // console.log(recipeId);
           await ingredientsService.getIngredients(recipeData.id);
