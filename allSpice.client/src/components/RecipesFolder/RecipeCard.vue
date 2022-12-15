@@ -52,20 +52,25 @@ export default {
       },
       async favoriteRecipe() {
         try {
+          AppState.favoriting = true
           await favoritesService.favoriteRecipe(props.recipe);
+          AppState.favoriting = false
         } catch (error) {
           Pop.error(error);
         }
       },
       async deleteFavorite(favorited, index) {
         try {
+          AppState.favoriting = true
           const yes = await Pop.confirm();
           if (!yes) {
+            AppState.favoriting = false
             return;
           }
           // console.log(favorited, index);
           let favoriteId = this.favorited.id;
           await favoritesService.deleteFavorite(favoriteId);
+          AppState.favoriting = false
           Pop.success(`${props.recipe.title} removed from favorites`);
         } catch (error) {
           Pop.error(error);

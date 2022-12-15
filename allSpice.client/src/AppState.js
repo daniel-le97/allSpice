@@ -18,4 +18,5 @@ export const AppState = reactive({
   modalForm: 0,
   offset: 0,
   favNumber: 0,
+  favoriting: false
 });
