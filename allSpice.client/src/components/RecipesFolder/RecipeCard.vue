@@ -10,7 +10,7 @@
         ></i>
         <i class="mdi mdi-heart fs-3" @click="favoriteRecipe()" v-else></i>
       </div>
-      <div class="">
+      <div class="d-flex flex-column justify-content-center align-content-center">
         <h5 class="card-title">{{ recipe.title }}</h5>
         <p class="card-text">{{ recipe.instructions }}</p>
         <p class="card-text">
